@@ -21,7 +21,7 @@ const replaceTemplate = (temp, product) => {
 	output = output.replace(/{%NUTRIENTS%}/g, product.nutrients);
 	output = output.replace(/{%QUANTITY%}/g, product.quantity);
 	output = output.replace(/{%DESCRIPTION%}/g, product.description);
-	output = output.replace(/{%ID%}/g, product.image);
+	output = output.replace(/{%ID%}/g, product.id);
 
 	if(!product.organic) {
 		output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
@@ -41,12 +41,13 @@ const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
 const dataObj = JSON.parse(data);
 
 const server = http.createServer((req, res) => {
-	//pathName recebe o url enviado na request
-	const pathName = req.url;
+
+	//pathname receive the requested URL
+	const {query, pathname } = url.parse(req.url, true);
 	
 
 	// Overview Page
-	if (pathName === '/' || pathName === '/overview'){
+	if (pathname === '/' || pathname === '/overview'){
 		
 		res.writeHead(200, {'Content-type': 'html'});
 		
@@ -57,15 +58,26 @@ const server = http.createServer((req, res) => {
 	}
 
 	// Product Page
-	 else if(pathName === '/product'){
-		res.end('This is the PRODUCT');
+	 else if(pathname === '/product'){
+		res.writeHead(200, { 'Content-type': 'text/html'});
+		const product = dataObj[query.id];
+		const output = replaceTemplate(tempProduct, product);
+		res.end(output);
 	}
 	// API
-	else if(pathName === '/api'){
+	else if(pathname === '/api'){
 		//res.end('API');
 			res.writeHead(200, {'Content-type': 'application/json'});
 			res.end(data);
 	}
+	// Page Not Found
+	else {
+		res.writeHead(404, {'Content-type': 'text/html',
+							'my-own-header': 'hello-world'
+		});
+		res.end('<h1> Page Not Found! </h1>');
+	}
+		
 		
 });
 
