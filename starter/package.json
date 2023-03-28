@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "slugify": "^1.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "name": "node-farm-starter",
+  "version": "1.0.0",
+  "description": "develop a node farm in a starter level",
+  "main": "index.js",
+  "scripts": {
+    //command that is gonna start the nodemon everytime
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nmauropp/node-simple-farm.git"
+  },
+  "author": "Mauro Nascimento",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nmauropp/node-simple-farm/issues"
+  },
+  "homepage": "https://github.com/nmauropp/node-simple-farm#readme"
+}
